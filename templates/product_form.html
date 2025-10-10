@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="form-section">
+    <h2>{% if is_new %}商品登録{% else %}商品編集{% endif %}</h2>
+    <form method="post" class="form-card" data-testid="product-form">
+        <div class="form-row">
+            <label for="name" data-testid="label-name">商品名<span class="required">*</span></label>
+            <input id="name" name="name" type="text" value="{{ form.get('name', '') }}" required maxlength="50"
+                data-testid="input-name">
+            {% if errors.get('name') %}
+            <span class="error" data-testid="error-name">{{ errors['name'] }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+            <label for="category" data-testid="label-category">カテゴリ<span class="required">*</span></label>
+            <select id="category" name="category" required data-testid="select-category">
+                <option value="">--選択--</option>
+                {% for cat in categories %}
+                <option value="{{ cat }}" {% if form.get('category')==cat %}selected{% endif %}>{{ cat }}</option>
+                {% endfor %}
+            </select>
+            {% if errors.get('category') %}
+            <span class="error" data-testid="error-category">{{ errors['category'] }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+            <label for="price" data-testid="label-price">価格<span class="required">*</span></label>
+            <input id="price" name="price" type="number" min="0" max="1000000" value="{{ form.get('price', '') }}"
+                required data-testid="input-price">
+            <small>0～1,000,000</small>
+            {% if errors.get('price') %}
+            <span class="error" data-testid="error-price">{{ errors['price'] }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+            <label for="stock" data-testid="label-stock">在庫数<span class="required">*</span></label>
+            <input id="stock" name="stock" type="number" min="0" max="999" value="{{ form.get('stock', '') }}" required
+                data-testid="input-stock">
+            <small>0～999</small>
+            {% if errors.get('stock') %}
+            <span class="error" data-testid="error-stock">{{ errors['stock'] }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+            <label for="description" data-testid="label-description">商品説明</label>
+            <textarea id="description" name="description" rows="4"
+                data-testid="input-description">{{ form.get('description', '') }}</textarea>
+        </div>
+
+        <fieldset class="form-row">
+            <legend data-testid="legend-status">ステータス</legend>
+            {% for status in status_options %}
+            <label class="radio-option" data-testid="option-status-{{ loop.index }}">
+                <input type="radio" name="status" value="{{ status }}" {% if form.get('status', '準備中' )==status
+                    %}checked{% endif %} data-testid="input-status-{{ status }}">
+                {{ status }}
+            </label>
+            {% endfor %}
+            {% if not is_new %}
+            <p class="hint" data-testid="status-hint">準備中 → 公開中/非公開、公開中 → 非公開、非公開 → 公開中 のみ遷移できます。</p>
+            {% endif %}
+            {% if errors.get('status') %}
+            <span class="error" data-testid="error-status">{{ errors['status'] }}</span>
+            {% endif %}
+        </fieldset>
+
+        <div class="form-actions">
+            <button type="submit" data-testid="submit-product">{{ submit_label }}</button>
+            <a href="{{ url_for('list_products') }}" class="button secondary" data-testid="link-cancel">一覧に戻る</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

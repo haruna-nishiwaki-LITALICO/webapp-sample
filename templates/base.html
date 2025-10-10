@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>QA Practice App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <header class="app-header">
+        <h1>QA Practice App</h1>
+        <div class="user-info" data-testid="user-info">
+            {% if session.get('user_id') %}
+            <span>ログイン中: {{ session.get('user_id') }} ({{ session.get('role') }})</span>
+            <form method="post" action="{{ url_for('logout') }}" class="inline-form">
+                <button type="submit" data-testid="logout-button">ログアウト</button>
+            </form>
+            {% else %}
+            <span>未ログイン</span>
+            {% endif %}
+        </div>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class="flash-messages" data-testid="flash-messages">
+            {% for category, message in messages %}
+            <li class="flash flash-{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
+</html>

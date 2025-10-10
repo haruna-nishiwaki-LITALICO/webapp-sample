@@ -1,0 +1,223 @@
+body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f8f9fb;
+    color: #333;
+}
+
+.app-header {
+    background: #1f4068;
+    color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.user-info {
+    font-size: 0.9rem;
+}
+
+.inline-form {
+    display: inline;
+}
+
+.inline-form button {
+    margin-left: 1rem;
+}
+
+main {
+    padding: 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.flash-messages {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+}
+
+.flash {
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.flash-success {
+    background: #e0f5e9;
+    color: #1b7a3c;
+}
+
+.flash-error {
+    background: #fdecea;
+    color: #c53030;
+}
+
+.flash-warning {
+    background: #fffaf0;
+    color: #b7791f;
+}
+
+.flash-info {
+    background: #ebf8ff;
+    color: #2c5282;
+}
+
+.toolbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.search-form {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row.price-group {
+    flex-direction: row;
+    align-items: center;
+}
+
+.form-row.price-group input {
+    width: 120px;
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.product-table th,
+.product-table td {
+    border: 1px solid #dde2e8;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.product-table th {
+    background: #f1f5f9;
+}
+
+.product-table tr.stock-empty {
+    background: #ffe5e5;
+}
+
+.product-table tr.stock-low {
+    background: #fff4ce;
+}
+
+.product-table tr.stock-ok {
+    background: #fff;
+}
+
+.product-description {
+    max-width: 220px;
+    white-space: pre-wrap;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.button,
+button {
+    background: #1f4068;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button.danger {
+    background: #c53030;
+}
+
+.button.secondary {
+    background: #475569;
+}
+
+.form-card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-row label,
+fieldset legend {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.required {
+    color: #c53030;
+    margin-left: 0.25rem;
+}
+
+.error {
+    color: #c53030;
+    font-size: 0.85rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.radio-option {
+    margin-right: 1rem;
+}
+
+.hint {
+    font-size: 0.85rem;
+    color: #475569;
+}
+
+.empty {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-form {
+        width: 100%;
+    }
+
+    .product-table {
+        font-size: 0.9rem;
+    }
+}

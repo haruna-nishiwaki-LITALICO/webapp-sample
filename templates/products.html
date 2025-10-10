@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="toolbar">
+    <h2>商品一覧</h2>
+    <form method="get" class="search-form" data-testid="search-form">
+        <div class="form-row">
+            <label for="keyword" data-testid="label-keyword">キーワード</label>
+            <input id="keyword" name="keyword" type="text" value="{{ keyword }}" data-testid="input-keyword">
+        </div>
+        <div class="form-row">
+            <label for="category" data-testid="label-category">カテゴリ</label>
+            <select id="category" name="category" data-testid="select-category">
+                <option value="">--選択--</option>
+                {% for cat in categories %}
+                <option value="{{ cat }}" {% if selected_category==cat %}selected{% endif %}>{{ cat }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-row price-group">
+            <label for="min_price" data-testid="label-min-price">価格帯</label>
+            <input id="min_price" name="min_price" type="number" min="0" value="{{ min_price }}"
+                data-testid="input-min-price"> ～
+            <input id="max_price" name="max_price" type="number" min="0" value="{{ max_price }}"
+                data-testid="input-max-price">
+        </div>
+        <button type="submit" data-testid="submit-search">検索</button>
+    </form>
+
+    {% if role == 'admin' %}
+    <a href="{{ url_for('new_product') }}" class="button" data-testid="link-new-product">新規商品を登録</a>
+    {% endif %}
+</section>
+
+<table class="product-table" data-testid="product-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>商品名</th>
+            <th>カテゴリ</th>
+            <th>価格</th>
+            <th>在庫数</th>
+            <th>在庫ステータス</th>
+            <th>商品ステータス</th>
+            <th>商品説明</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in products %}
+        <tr class="{{ row.row_class }}" data-testid="product-row-{{ row.product.id }}">
+            <td data-testid="product-id-{{ row.product.id }}">{{ row.product.id }}</td>
+            <td data-testid="product-name-{{ row.product.id }}">{{ row.product.name }}</td>
+            <td>{{ row.product.category }}</td>
+            <td>{{ '{:,}'.format(row.product.price) }}円</td>
+            <td>{{ row.product.stock }}</td>
+            <td class="stock-label">{{ row.stock_label }}</td>
+            <td>{{ row.product.status }}</td>
+            <td class="product-description" data-testid="product-description-{{ row.product.id }}">{{
+                row.description_markup }}</td>
+            <td class="actions">
+                <a href="{{ url_for('edit_product', product_id=row.product.id) }}"
+                    data-testid="link-edit-{{ row.product.id }}">編集</a>
+                {% if role == 'admin' %}
+                <form method="post" action="{{ url_for('delete_product', product_id=row.product.id) }}"
+                    class="inline-form" data-testid="form-delete-{{ row.product.id }}">
+                    <button type="submit" class="danger" data-testid="button-delete-{{ row.product.id }}">削除</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="9" class="empty" data-testid="empty-state">商品が見つかりませんでした。</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
