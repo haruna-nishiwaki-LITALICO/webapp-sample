@@ -1,0 +1,22 @@
+{
+  "name": "webapp-sample",
+  "version": "1.0.0",
+  "description": "QAエンジニアのためのテスト技法・自動化練習用Webアプリケーションです。意図的に盛り込まれた不具合や複雑な仕様を利用して、同値分割・境界値分析・状態遷移テストなどを実践できます。",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haruna-nishiwaki-LITALICO/webapp-sample.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/haruna-nishiwaki-LITALICO/webapp-sample/issues"
+  },
+  "homepage": "https://github.com/haruna-nishiwaki-LITALICO/webapp-sample#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^24.7.1"
+  }
+}
