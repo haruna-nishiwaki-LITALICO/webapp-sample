@@ -3,8 +3,8 @@
 
 import { expect, test } from '@playwright/test';
 
-test.describe('Scenario 6: Product Registration Validation Boundaries', () => {
-  test('Product Registration Validation Boundaries', async ({ page }) => {
+test.describe('Scenario 6: 製品登録のバリデーションの境界値テスト', () => {
+  test('製品登録のバリデーションの境界値テスト', async ({ page }) => {
     const userIdInput = page.getByTestId('input-user-id');
     const passwordInput = page.getByTestId('input-password');
     const loginButton = page.getByTestId('submit-login');
@@ -23,6 +23,7 @@ test.describe('Scenario 6: Product Registration Validation Boundaries', () => {
     const overLengthName = 'A'.repeat(51);
     const validName = 'Valid Product';
 
+    // ページ読み込み時に組み込みのバリデーションを無効化する
     await page.addInitScript(() => {
       window.addEventListener('DOMContentLoaded', () => {
         const form = document.querySelector('[data-testid="product-form"]');
@@ -41,12 +42,12 @@ test.describe('Scenario 6: Product Registration Validation Boundaries', () => {
     await newProductLink.click();
     await expect(page).toHaveURL('http://127.0.0.1:5000/products/new');
 
-    // Disable built-in constraint validation so the form submits and server-side errors surface.
+    // 組み込みの制約バリデーションを無効化し、フォーム送信時にサーバーサイドのエラーが表示されるようにする
     await page.getByTestId('product-form').evaluate((form: HTMLFormElement) => {
       form.setAttribute('novalidate', '');
     });
 
-    // ステップ1: 「Attempt submission with all required fields blank.」の実施
+    // ステップ1: 全ての必須項目を空欄のまま送信する
     await submitButton.click();
     await expect(flashItems).toHaveText([
       'name: 商品名は必須です。',
@@ -59,7 +60,7 @@ test.describe('Scenario 6: Product Registration Validation Boundaries', () => {
     await expect(priceError).toHaveText('必須入力です。');
     await expect(stockError).toHaveText('必須入力です。');
 
-    // ステップ2: 「Enter 商品名 of 51 characters and submit.」の実施
+    // ステップ2: 商品名に51文字を入力して送信する
     await nameInput.evaluate((element: HTMLInputElement) => {
       element.removeAttribute('maxlength');
       element.maxLength = 1000;
@@ -78,7 +79,7 @@ test.describe('Scenario 6: Product Registration Validation Boundaries', () => {
     await expect(priceError).toHaveText('必須入力です。');
     await expect(stockError).toHaveText('必須入力です。');
 
-    // ステップ3: 「Enter 価格 -1, then 1000001, submitting each time.」の実施
+    // ステップ3: 価格に-1を入力し送信し、次に1000001を入力し送信する
     await nameInput.fill(validName);
     await categorySelect.selectOption('その他');
     await stockInput.fill('10');
@@ -100,7 +101,7 @@ test.describe('Scenario 6: Product Registration Validation Boundaries', () => {
     await expect(priceInput).toHaveValue('1000001');
     await expect(priceError).toHaveText('0以上1000000以下で入力してください。');
 
-    // ステップ4: 「Enter 在庫数 -1, then 1000, submitting each time.」の実施
+    // ステップ4: 在庫数に-1を入力して送信し、次に1000を入力して送信する
     await priceInput.fill('1200');
     await stockInput.fill('-1');
     await submitButton.click();
@@ -116,7 +117,7 @@ test.describe('Scenario 6: Product Registration Validation Boundaries', () => {
     await expect(stockInput).toHaveValue('1000');
     await expect(stockError).toHaveText('0以上999以下で入力してください。');
 
-    // ステップ5: 「Enter non-numeric characters in 価格 and 在庫数 and submit.」の実施
+    // ステップ5: 価格と在庫数に数値以外の文字を入力して送信する
     await priceInput.evaluate((element: HTMLInputElement) => {
       element.setAttribute('type', 'text');
     });
